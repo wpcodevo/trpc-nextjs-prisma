@@ -1,0 +1,43 @@
+{
+  "name": "trpc-nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:migrate": "npx prisma migrate dev --name user-entity --create-only && yarn prisma generate",
+    "db:push": "npx prisma db push"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.1.0",
+    "@trpc/client": "^9.26.2",
+    "@trpc/next": "^9.26.2",
+    "@trpc/react": "^9.26.2",
+    "@trpc/server": "^9.26.2",
+    "bcryptjs": "^2.4.3",
+    "cookies-next": "^2.1.1",
+    "dotenv-safe": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "next": "12.2.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-query": "3",
+    "redis": "^4.2.0",
+    "superjson": "^1.9.1",
+    "zod": "^3.17.9"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/dotenv-safe": "^8.1.2",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/node": "18.0.6",
+    "@types/react": "18.0.15",
+    "@types/react-dom": "18.0.6",
+    "eslint": "8.20.0",
+    "eslint-config-next": "12.2.2",
+    "prisma": "^4.1.0",
+    "typescript": "4.7.4"
+  }
+}
