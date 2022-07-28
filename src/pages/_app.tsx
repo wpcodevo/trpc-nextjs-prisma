@@ -1,13 +1,29 @@
 import '../styles/globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 import type { AppProps } from 'next/app';
 import { withTRPC } from '@trpc/next';
 import type { AppRouter } from '../server/routers/app.routes';
 import { loggerLink } from '@trpc/client/links/loggerLink';
 import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import superjson from 'superjson';
+import { ToastContainer } from 'react-toastify';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { CookiesProvider } from 'react-cookie';
+import AuthMiddleware from '../client/middleware/AuthMiddleware';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <CookiesProvider>
+      <AuthMiddleware
+        requireAuth={pageProps.requireAuth}
+        enableAuth={pageProps.enableAuth}
+      >
+        <ToastContainer />
+        <Component {...pageProps} />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </AuthMiddleware>
+    </CookiesProvider>
+  );
 }
 
 export default withTRPC<AppRouter>({
@@ -27,7 +43,7 @@ export default withTRPC<AppRouter>({
       queryClientConfig: {
         defaultOptions: {
           queries: {
-            staleTime: 60,
+            staleTime: 5 * 1000,
           },
         },
       },
@@ -42,6 +58,12 @@ export default withTRPC<AppRouter>({
       },
       links,
       transformer: superjson,
+      fetch(url, options) {
+        return fetch(url, {
+          ...options,
+          credentials: 'include',
+        });
+      },
     };
   },
   ssr: false,

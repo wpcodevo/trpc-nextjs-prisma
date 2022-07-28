@@ -7,7 +7,10 @@ import { verifyJwt } from '../utils/jwt';
 export const deserializeUser = async ({
   req,
   res,
-}:{req: NextApiRequest, res: NextApiResponse}) => {
+}: {
+  req: NextApiRequest;
+  res: NextApiResponse;
+}) => {
   try {
     // Get the token
     let access_token;
@@ -48,7 +51,7 @@ export const deserializeUser = async ({
     }
 
     // Check if user still exist
-    const user = await findUniqueUser({ id: JSON.parse(session).id }, {});
+    const user = await findUniqueUser({ id: JSON.parse(session).id });
 
     if (!user) {
       return notAuthenticated;

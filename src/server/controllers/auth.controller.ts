@@ -43,11 +43,13 @@ export const registerHandler = async ({
   input: CreateUserInput;
 }) => {
   try {
+    const hashedPassword = await bcrypt.hash(input.password, 12);
     const user = await createUser({
       email: input.email,
       name: input.name,
-      password: input.password,
+      password: hashedPassword,
       photo: input.photo,
+      provider: 'local',
     });
 
     return {
@@ -79,7 +81,7 @@ export const loginHandler = async ({
     const user = await findUser({ email: input.email });
 
     // Check if user exist and password is correct
-    if (!user || !(await bcrypt.compare(user.password, input.password))) {
+    if (!user || !(await bcrypt.compare(input.password, user.password))) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
         message: 'Invalid email or password',
