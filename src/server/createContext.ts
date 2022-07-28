@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { deserializeUser } from './middleware/deserializeUser';
 
 export function createContext({
   req,
@@ -8,7 +7,7 @@ export function createContext({
   req: NextApiRequest;
   res: NextApiResponse;
 }) {
-  return deserializeUser({ req, res });
+  return null
 }
 
 export type Context = ReturnType<typeof createContext>;
