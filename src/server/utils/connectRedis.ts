@@ -8,6 +8,7 @@ const redisClient = createClient({
 const connectRedis = async () => {
   try {
     await redisClient.connect();
+    redisClient.set('trpc', 'Welcome to tRPC with Next.js and Prisma');
     console.log('🚀 Redis client connected...');
   } catch (err: any) {
     console.log(err.message);
