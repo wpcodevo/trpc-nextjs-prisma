@@ -11,24 +11,20 @@
     "db:push": "npx prisma db push"
   },
   "dependencies": {
-    "@hookform/resolvers": "^2.9.6",
     "@prisma/client": "^4.1.0",
     "@trpc/client": "^9.26.2",
     "@trpc/next": "^9.26.2",
     "@trpc/react": "^9.26.2",
     "@trpc/server": "^9.26.2",
-    "dotenv-safe": "^8.2.0",
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-query": "3",
     "redis": "^4.2.0",
     "superjson": "^1.9.1",
-    "tailwind-merge": "^1.5.1",
-    "zod": "^3.17.9"
+    "tailwind-merge": "^1.5.1"
   },
   "devDependencies": {
-    "@types/dotenv-safe": "^8.1.2",
     "@types/node": "18.0.6",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",

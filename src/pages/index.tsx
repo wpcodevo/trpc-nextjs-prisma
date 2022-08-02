@@ -1,15 +1,6 @@
 import type { NextPage } from 'next';
 import { trpc } from '../client/utils/trpc';
 
-export const getServerSideProps = async () => {
-  return {
-    props: {
-      requireAuth: false,
-      enableAuth: false,
-    },
-  };
-};
-
 const HomePage: NextPage = () => {
   const { data, isLoading, isFetching, error, isError } = trpc.useQuery([
     'hello',
