@@ -1,14 +1,26 @@
 import type { NextPage } from 'next';
-import { trpc } from '../client/utils/trpc';
+import Header from '../client/components/Header';
 
-const Home: NextPage = () => {
-  const { data, isLoading } = trpc.useQuery(['hello']);
-  if (isLoading) return <div>loading...</div>;
+export const getServerSideProps = async () => {
+  return {
+    props: {
+      requireAuth: false,
+      enableAuth: false,
+    },
+  };
+};
+
+const HomePage: NextPage = () => {
   return (
-    <div>
-      <h1>{JSON.stringify(data, null, 2)}</h1>
-    </div>
+    <>
+      <Header />
+      <section className='bg-ct-blue-600 min-h-screen pt-20'>
+        <div className='max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center'>
+          <p className='text-5xl font-semibold'>Home Page</p>
+        </div>
+      </section>
+    </>
   );
 };
 
-export default Home;
+export default HomePage;

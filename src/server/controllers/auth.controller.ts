@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import bcrypt from 'bcryptjs';
 import { OptionsType } from 'cookies-next/lib/types';
-import { getCookie, setCookies } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 import customConfig from '../config/default';
 import { Context } from '../createContext';
 import { CreateUserInput, LoginUserInput } from '../schema/user.schema';
@@ -43,11 +43,13 @@ export const registerHandler = async ({
   input: CreateUserInput;
 }) => {
   try {
+    const hashedPassword = await bcrypt.hash(input.password, 12);
     const user = await createUser({
       email: input.email,
       name: input.name,
-      password: input.password,
+      password: hashedPassword,
       photo: input.photo,
+      provider: 'local',
     });
 
     return {
@@ -79,7 +81,7 @@ export const loginHandler = async ({
     const user = await findUser({ email: input.email });
 
     // Check if user exist and password is correct
-    if (!user || !(await bcrypt.compare(user.password, input.password))) {
+    if (!user || !(await bcrypt.compare(input.password, user.password))) {
       throw new TRPCError({
         code: 'BAD_REQUEST',
         message: 'Invalid email or password',
@@ -90,17 +92,17 @@ export const loginHandler = async ({
     const { access_token, refresh_token } = await signTokens(user);
 
     // Send Access Token in Cookie
-    setCookies('access_token', access_token, {
+    setCookie('access_token', access_token, {
       req,
       res,
       ...accessTokenCookieOptions,
     });
-    setCookies('refresh_token', refresh_token, {
+    setCookie('refresh_token', refresh_token, {
       req,
       res,
       ...refreshTokenCookieOptions,
     });
-    setCookies('logged_in', 'true', {
+    setCookie('logged_in', 'true', {
       req,
       res,
       ...accessTokenCookieOptions,
@@ -119,9 +121,9 @@ export const loginHandler = async ({
 
 // Refresh tokens
 const logout = ({ ctx: { req, res } }: { ctx: Context }) => {
-  setCookies('access_token', '', { req, res, maxAge: -1 });
-  setCookies('refresh_token', '', { req, res, maxAge: -1 });
-  setCookies('logged_in', '', { req, res, maxAge: -1 });
+  setCookie('access_token', '', { req, res, maxAge: -1 });
+  setCookie('refresh_token', '', { req, res, maxAge: -1 });
+  setCookie('logged_in', '', { req, res, maxAge: -1 });
 };
 
 export const refreshAccessTokenHandler = async ({
@@ -167,12 +169,12 @@ export const refreshAccessTokenHandler = async ({
     });
 
     // Send the access token as cookie
-    setCookies('access_token', access_token, {
+    setCookie('access_token', access_token, {
       req,
       res,
       ...accessTokenCookieOptions,
     });
-    setCookies('logged_in', 'true', {
+    setCookie('logged_in', 'true', {
       req,
       res,
       ...accessTokenCookieOptions,
