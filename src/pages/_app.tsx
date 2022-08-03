@@ -1,28 +1,18 @@
 import '../styles/globals.css';
-import 'react-toastify/dist/ReactToastify.css';
 import type { AppProps } from 'next/app';
 import { withTRPC } from '@trpc/next';
 import type { AppRouter } from '../server/routers/app.routes';
 import { loggerLink } from '@trpc/client/links/loggerLink';
 import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import superjson from 'superjson';
-import { ToastContainer } from 'react-toastify';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { CookiesProvider } from 'react-cookie';
-import AuthMiddleware from '../client/middleware/AuthMiddleware';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <CookiesProvider>
-      <AuthMiddleware
-        requireAuth={pageProps.requireAuth}
-        enableAuth={pageProps.enableAuth}
-      >
-        <ToastContainer />
-        <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </AuthMiddleware>
-    </CookiesProvider>
+    <>
+      <Component {...pageProps} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </>
   );
 }
 
