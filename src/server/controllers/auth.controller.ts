@@ -1,3 +1,4 @@
+// [...] Imports
 import { TRPCError } from '@trpc/server';
 import bcrypt from 'bcryptjs';
 import { OptionsType } from 'cookies-next/lib/types';
@@ -14,13 +15,13 @@ import {
 import redisClient from '../utils/connectRedis';
 import { signJwt, verifyJwt } from '../utils/jwt';
 
+// [...] Cookie options
 const cookieOptions: OptionsType = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
   sameSite: 'lax',
 };
 
-// Cookie options
 const accessTokenCookieOptions: OptionsType = {
   ...cookieOptions,
   expires: new Date(Date.now() + customConfig.accessTokenExpiresIn * 60 * 1000),
@@ -33,10 +34,7 @@ const refreshTokenCookieOptions: OptionsType = {
   ),
 };
 
-// Only set secure to true in production
-if (process.env.NODE_ENV === 'production')
-  accessTokenCookieOptions.secure = true;
-
+// [...] Register user
 export const registerHandler = async ({
   input,
 }: {
@@ -69,6 +67,7 @@ export const registerHandler = async ({
   }
 };
 
+// [...] Login user
 export const loginHandler = async ({
   input,
   ctx: { req, res },
@@ -119,13 +118,7 @@ export const loginHandler = async ({
   }
 };
 
-// Refresh tokens
-const logout = ({ ctx: { req, res } }: { ctx: Context }) => {
-  setCookie('access_token', '', { req, res, maxAge: -1 });
-  setCookie('refresh_token', '', { req, res, maxAge: -1 });
-  setCookie('logged_in', '', { req, res, maxAge: -1 });
-};
-
+// [...] Refresh tokens
 export const refreshAccessTokenHandler = async ({
   ctx: { req, res },
 }: {
@@ -189,6 +182,13 @@ export const refreshAccessTokenHandler = async ({
   } catch (err: any) {
     throw err;
   }
+};
+
+// [...] Logout user
+const logout = ({ ctx: { req, res } }: { ctx: Context }) => {
+  setCookie('access_token', '', { req, res, maxAge: -1 });
+  setCookie('refresh_token', '', { req, res, maxAge: -1 });
+  setCookie('logged_in', '', { req, res, maxAge: -1 });
 };
 
 export const logoutHandler = async ({ ctx }: { ctx: Context }) => {

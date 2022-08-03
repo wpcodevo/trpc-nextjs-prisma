@@ -4,8 +4,6 @@ import redisClient from '../utils/connectRedis';
 import { signJwt } from '../utils/jwt';
 import { prisma } from '../utils/prisma';
 
-export const excludedFields = ['password', 'verified', 'verificationCode'];
-
 export const createUser = async (input: Prisma.UserCreateInput) => {
   return (await prisma.user.create({
     data: input,
