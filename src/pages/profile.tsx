@@ -38,7 +38,6 @@ const ProfilePage: NextPage<ProfileProps> = ({}) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  console.log(req.cookies.access_token);
   if (!req.cookies.access_token) {
     return {
       redirect: {
