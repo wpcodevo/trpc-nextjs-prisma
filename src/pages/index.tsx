@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import Header from '../client/components/Header';
+import { trpc } from '../client/utils/trpc';
 
 export const getServerSideProps = async () => {
   return {
@@ -11,12 +12,24 @@ export const getServerSideProps = async () => {
 };
 
 const HomePage: NextPage = () => {
+  const { data, isLoading, isFetching, error, isError } = trpc.useQuery([
+    'hello',
+  ]);
+
+  if (isLoading || isFetching) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>Error: {error.message}</p>;
+  }
+
   return (
     <>
       <Header />
       <section className='bg-ct-blue-600 min-h-screen pt-20'>
         <div className='max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center'>
-          <p className='text-5xl font-semibold'>Home Page</p>
+          <p className='text-3xl font-semibold'>{data?.message}</p>
         </div>
       </section>
     </>
