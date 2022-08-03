@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import bcrypt from 'bcryptjs';
 import { OptionsType } from 'cookies-next/lib/types';
-import { getCookie, setCookies } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 import customConfig from '../config/default';
 import { Context } from '../createContext';
 import { CreateUserInput, LoginUserInput } from '../schema/user.schema';
@@ -92,17 +92,17 @@ export const loginHandler = async ({
     const { access_token, refresh_token } = await signTokens(user);
 
     // Send Access Token in Cookie
-    setCookies('access_token', access_token, {
+    setCookie('access_token', access_token, {
       req,
       res,
       ...accessTokenCookieOptions,
     });
-    setCookies('refresh_token', refresh_token, {
+    setCookie('refresh_token', refresh_token, {
       req,
       res,
       ...refreshTokenCookieOptions,
     });
-    setCookies('logged_in', 'true', {
+    setCookie('logged_in', 'true', {
       req,
       res,
       ...accessTokenCookieOptions,
@@ -121,9 +121,9 @@ export const loginHandler = async ({
 
 // Refresh tokens
 const logout = ({ ctx: { req, res } }: { ctx: Context }) => {
-  setCookies('access_token', '', { req, res, maxAge: -1 });
-  setCookies('refresh_token', '', { req, res, maxAge: -1 });
-  setCookies('logged_in', '', { req, res, maxAge: -1 });
+  setCookie('access_token', '', { req, res, maxAge: -1 });
+  setCookie('refresh_token', '', { req, res, maxAge: -1 });
+  setCookie('logged_in', '', { req, res, maxAge: -1 });
 };
 
 export const refreshAccessTokenHandler = async ({
@@ -169,12 +169,12 @@ export const refreshAccessTokenHandler = async ({
     });
 
     // Send the access token as cookie
-    setCookies('access_token', access_token, {
+    setCookie('access_token', access_token, {
       req,
       res,
       ...accessTokenCookieOptions,
     });
-    setCookies('logged_in', 'true', {
+    setCookie('logged_in', 'true', {
       req,
       res,
       ...accessTokenCookieOptions,
