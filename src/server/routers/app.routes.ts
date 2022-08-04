@@ -6,7 +6,7 @@ import userRouter from './user.routes';
 export const appRouter = createRouter()
   .query('hello', {
     resolve: async (ctx) => {
-      const message = await redisClient.get('trpc');
+      const message = await redisClient.get('tRPC');
       return { message };
     },
   })
