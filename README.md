@@ -7,3 +7,7 @@
 ### 2. Build tRPC API with Next.js & PostgreSQL: Access & Refresh Tokens
 
 [Build tRPC API with Next.js & PostgreSQL: Access & Refresh Tokens](https://codevoweb.com/trpc-api-with-nextjs-postgresql-access-refresh-tokens)
+
+### 3. BFull-Stack Next.js tRPC App: User Registration & Login Example
+
+[Full-Stack Next.js tRPC App: User Registration & Login Example](https://codevoweb.com/fullstack-nextjs-trpc-app-user-registration-login-example/)
