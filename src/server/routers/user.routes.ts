@@ -4,7 +4,7 @@ import { getMeHandler } from '../controllers/user.controller';
 
 const userRouter = createRouter()
   .middleware(async ({ ctx, next }) => {
-    if (!ctx.user) {
+    if (!(await ctx).user) {
       throw new trpc.TRPCError({
         code: 'UNAUTHORIZED',
         message: 'You must be logged in to access this resource',

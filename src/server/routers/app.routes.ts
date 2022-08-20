@@ -1,6 +1,7 @@
 import { createRouter } from '../createRouter';
 import redisClient from '../utils/connectRedis';
 import authRouter from './auth.routes';
+import postRouter from './post.route';
 import userRouter from './user.routes';
 
 export const appRouter = createRouter()
@@ -11,6 +12,7 @@ export const appRouter = createRouter()
     },
   })
   .merge('auth.', authRouter)
-  .merge('users.', userRouter);
+  .merge('users.', userRouter)
+  .merge('posts.', postRouter)
 
 export type AppRouter = typeof appRouter;
