@@ -29,12 +29,11 @@ export const findUniquePost = async (
 
 export const findAllPosts = async (
   page: number, limit: number,
-  select?: Prisma.PostSelect,
 ) => {
   const take = limit || 10;
   const skip = (page - 1 ) * limit
   return (await prisma.post.findMany({
-    select,
+    include: {user: true},
     skip,
     take,
   })) as Post[];
@@ -52,4 +51,3 @@ export const updatePost = async (
 export const deletePost = async (where: Prisma.PostWhereUniqueInput)=> {
   return await prisma.post.delete({where})
 }
-

@@ -1,7 +1,7 @@
 import { createRouter } from '../createRouter';
 import redisClient from '../utils/connectRedis';
 import authRouter from './auth.routes';
-import postRouter from './post.route';
+import postRouter from './post.routes';
 import userRouter from './user.routes';
 
 export const appRouter = createRouter()
