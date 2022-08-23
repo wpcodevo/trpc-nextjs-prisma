@@ -1,35 +1,62 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import Header from '../client/components/Header';
+import Message from '../client/components/Message';
+import PostItem from '../client/components/posts/post.component';
+import useStore from '../client/store';
 import { trpc } from '../client/utils/trpc';
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return {
     props: {
-      requireAuth: false,
-      enableAuth: false,
+      requireAuth: true,
+      enableAuth: true,
     },
   };
 };
 
 const HomePage: NextPage = () => {
-  const { data, isLoading, isFetching, error, isError } = trpc.useQuery([
-    'hello',
-  ]);
+  const store = useStore();
+  const { data: posts, isLoading } = trpc.useQuery(
+    ["posts.getPosts", {limit: 10, page: 1}],
+    {
+      onSuccess: ()=> {
+        store.setPageLoading(false);
+      },
+      select: (data) => data.data.posts,
+      onError(error: any) {
+        store.setPageLoading(false);
+        error.response.errors.forEach((err: any) => {
+          toast(err.message, {
+            type: 'error',
+            position: 'top-right',
+          });
+        });
+      },
+    }
+  );
 
-  if (isLoading || isFetching) {
-    return <p>Loading...</p>;
-  }
-
-  if (isError) {
-    return <p>Error: {error.message}</p>;
-  }
-
+  useEffect(() => {
+    if (isLoading) {
+      store.setPageLoading(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
   return (
     <>
       <Header />
-      <section className='bg-ct-blue-600 min-h-screen pt-20'>
-        <div className='max-w-4xl mx-auto bg-ct-dark-100 rounded-md h-[20rem] flex justify-center items-center'>
-          <p className='text-3xl font-semibold'>{data?.message}</p>
+      <section className='bg-ct-blue-600 min-h-screen py-12'>
+        <div>
+          {posts?.length === 0 ? (
+            <Message>There are no posts at the moment</Message>
+          ) : (
+            <div className='max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5 px-6'>
+              {posts?.map((post: any) => (
+                <PostItem key={post.id} post={post} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </>
