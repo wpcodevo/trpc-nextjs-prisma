@@ -4,15 +4,15 @@ import { createPostSchema, filterQuery, params, updatePostSchema } from '../sche
 import { createPostHandler, deletePostHandler, getPostHandler, getPostsHandler, updatePostHandler } from '../controllers/post.controller';
 
   const postRouter = createRouter()
-//   .middleware(async ({ ctx, next }) => {
-//     if (!(await ctx).user) {
-//       throw new trpc.TRPCError({
-//         code: 'UNAUTHORIZED',
-//         message: 'You must be logged in to access this resource',
-//       });
-//     }
-//     return next();
-//   })
+  .middleware(async ({ ctx, next }) => {
+    if (!(await ctx).user) {
+      throw new trpc.TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'You must be logged in to access this resource',
+      });
+    }
+    return next();
+  })
   .mutation('create', {
     input: createPostSchema,
     resolve: ({ input, ctx }) => createPostHandler({ input, ctx }),
