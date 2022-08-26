@@ -20,14 +20,12 @@ const Header = () => {
       document.location.href = '/login';
     },
     onError(error: any) {
-      error.response.errors.forEach((err: any) => {
-        toast(err.message, {
-          type: 'error',
-          position: 'top-right',
-        });
-        queryClient.clear();
-        document.location.href = '/login';
-      });
+      toast(error.message, {
+            type: 'error',
+            position: 'top-right',
+          });
+      queryClient.clear();
+      document.location.href = '/login';
     },
   });
 
