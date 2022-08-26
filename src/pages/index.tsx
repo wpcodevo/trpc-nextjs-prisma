@@ -21,18 +21,16 @@ const HomePage: NextPage = () => {
   const { data: posts, isLoading } = trpc.useQuery(
     ["posts.getPosts", {limit: 10, page: 1}],
     {
-      onSuccess: ()=> {
+      select: (data) => data.data.posts,
+      onSuccess: (data)=> {
         store.setPageLoading(false);
       },
-      select: (data) => data.data.posts,
-      onError(error: any) {
+      onError(error) {
         store.setPageLoading(false);
-        error.response.errors.forEach((err: any) => {
-          toast(err.message, {
+          toast(error.message, {
             type: 'error',
             position: 'top-right',
           });
-        });
       },
     }
   );
