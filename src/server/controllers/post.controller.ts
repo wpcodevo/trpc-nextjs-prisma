@@ -40,7 +40,7 @@ export const createPostHandler = async ({
       },
     };
   } catch (err: any) {
-    if (err.code === '11000') {
+    if (err.code === 'P2002') {
       throw new TRPCError({
         code: 'CONFLICT',
         message: 'Post with that title already exists',
