@@ -59,7 +59,7 @@ export const registerHandler = async ({
       },
     };
   } catch (err: any) {
-    if (err.code === 11000) {
+    if (err.code === 'P2002') {
       throw new TRPCError({
         code: 'CONFLICT',
         message: 'Email already exists',
