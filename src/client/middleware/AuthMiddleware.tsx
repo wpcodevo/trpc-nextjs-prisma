@@ -15,7 +15,6 @@ const AuthMiddleware: React.FC<AuthMiddlewareProps> = ({
   requireAuth,
   enableAuth,
 }) => {
-  console.log('I was called from AuthMiddleware');
   const store = useStore();
   const queryClient = useQueryClient();
   const query = trpc.useQuery(['auth.refresh'], {
@@ -41,7 +40,10 @@ const AuthMiddleware: React.FC<AuthMiddlewareProps> = ({
       store.setPageLoading(false);
       if (error.message.includes('must be logged in')) {
         query.refetch({ throwOnError: true });
+      }else{
+          document.location.href = '/login';
       }
+
     },
   });
 

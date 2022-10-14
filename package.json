@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:migrate": "npx prisma migrate dev --name post-entity --create-only && yarn prisma generate",
+    "db:migrate": "npx prisma migrate dev --name post-entity --create-only && npx prisma generate",
     "db:push": "npx prisma db push"
   },
   "dependencies": {
@@ -19,6 +19,7 @@
     "@trpc/server": "^9.26.2",
     "bcryptjs": "^2.4.3",
     "cookies-next": "^2.1.1",
+    "date-fns": "^2.29.2",
     "dotenv-safe": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
     "next": "12.2.2",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/date-fns": "^2.6.0",
     "@types/dotenv-safe": "^8.1.2",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "18.0.6",
