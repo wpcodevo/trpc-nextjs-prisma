@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
-import { Controller, useController, useFormContext } from 'react-hook-form';
-import useStore from '../store';
-import Spinner from './Spinner';
+import React, { useCallback } from "react";
+import { Controller, useController, useFormContext } from "react-hook-form";
+import useStore from "../store";
+import Spinner from "./Spinner";
 
-const CLOUDINARY_UPLOAD_PRESET = 'nextjs-trpc';
-const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/Codevo/image/upload';
+const CLOUDINARY_UPLOAD_PRESET = "nextjs-trpc";
+const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/Codevo/image/upload";
 
 type FileUpLoaderProps = {
   name: string;
@@ -23,12 +23,12 @@ const FileUpLoader: React.FC<FileUpLoaderProps> = ({ name }) => {
       if (!target.files) return;
       const newFile = Object.values(target.files).map((file: File) => file);
       const formData = new FormData();
-      formData.append('file', newFile[0]);
-      formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+      formData.append("file", newFile[0]!);
+      formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
 
       store.setUploadingImage(true);
       const data = await fetch(CLOUDINARY_URL, {
-        method: 'POST',
+        method: "POST",
         body: formData,
       })
         .then((res) => {
@@ -52,31 +52,31 @@ const FileUpLoader: React.FC<FileUpLoaderProps> = ({ name }) => {
   return (
     <Controller
       name={name}
-      defaultValue=''
+      defaultValue=""
       control={control}
       render={({ field: { name, onBlur, ref } }) => (
         <>
-          <div className='mb-2 flex justify-between items-center'>
+          <div className="mb-2 flex justify-between items-center">
             <div>
-              <span className='block mb-2'>Choose profile photo</span>
+              <span className="block mb-2">Choose profile photo</span>
               <input
-                className='block text-sm mb-2 text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100'
-                type='file'
+                className="block text-sm mb-2 text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                type="file"
                 name={name}
                 onBlur={onBlur}
                 ref={ref}
                 onChange={onFileDrop}
                 multiple={false}
-                accept='image/jpg, image/png, image/jpeg'
+                accept="image/jpg, image/png, image/jpeg"
               />
             </div>
             <div>
-              {store.uploadingImage && <Spinner color='text-yellow-400' />}
+              {store.uploadingImage && <Spinner color="text-yellow-400" />}
             </div>
           </div>
           <p
             className={`text-red-500 text-xs italic mb-2 ${
-              errors[name] ? 'visible' : 'invisible'
+              errors[name] ? "visible" : "invisible"
             }`}
           >
             {errors[name] && (errors[name]?.message as unknown as string)}
