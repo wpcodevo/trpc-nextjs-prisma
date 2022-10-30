@@ -1,4 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { inferAsyncReturnType } from "@trpc/server";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export function createContext({
   req,
@@ -7,7 +8,7 @@ export function createContext({
   req: NextApiRequest;
   res: NextApiResponse;
 }) {
-  return null
+  return { req, res };
 }
 
-export type Context = ReturnType<typeof createContext>;
+export type Context = inferAsyncReturnType<typeof createContext>;
