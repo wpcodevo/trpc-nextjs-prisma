@@ -8,19 +8,35 @@ import useStore from "../client/store";
 import { trpc } from "../client/utils/trpc";
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const refresh_token = req.cookies["refresh_token"];
+  const access_token = req.cookies["access_token"];
+
+  if (!refresh_token && !access_token) {
+    return {
+      props: {
+        access_token,
+      },
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
   return {
     props: {
+      access_token,
       requireAuth: true,
       enableAuth: true,
     },
   };
 };
 
-const HomePage: NextPage = () => {
+const HomePage: NextPage<{ access_token: string }> = ({ access_token }) => {
   const store = useStore();
   const { data: posts, isLoading } = trpc.getPosts.useQuery(
     { limit: 10, page: 1 },
     {
+      enabled: !!access_token,
       select: (data) => data.data.posts,
       onSuccess: (data) => {
         store.setPageLoading(false);

@@ -1,6 +1,10 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { Context } from "./createContext";
+import connectDB from "./utils/prisma";
+
+// Connect to Prisma
+connectDB();
 
 export const t = initTRPC.context<Context>().create({
   transformer: superjson,
