@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { IUser } from "../lib/types";
 import useStore from "../store";
 import { trpc } from "../utils/trpc";
@@ -18,8 +18,10 @@ const AuthMiddleware: React.FC<AuthMiddlewareProps> = ({
   const store = useStore();
   const queryClient = useQueryClient();
   const query = trpc.refreshAccessToken.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     enabled: false,
-    retry: 1,
+    retry: false,
     onError(error: any) {
       store.setPageLoading(false);
       document.location.href = "/login";
@@ -28,19 +30,31 @@ const AuthMiddleware: React.FC<AuthMiddlewareProps> = ({
       store.setPageLoading(false);
       queryClient.refetchQueries(["users.me"]);
     },
+    trpc: {
+      context: {
+        skipBatch: true,
+      },
+    },
   });
   const { isLoading, isFetching } = trpc.getMe.useQuery(undefined, {
+    retry: false,
+    enabled: enableAuth,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     onSuccess: (data) => {
       store.setPageLoading(false);
       store.setAuthUser(data.data.user as unknown as IUser);
     },
-    retry: 1,
-    enabled: !!enableAuth,
     onError(error) {
       store.setPageLoading(false);
       if (error.message.includes("must be logged in")) {
         query.refetch({ throwOnError: true });
       }
+    },
+    trpc: {
+      context: {
+        skipBatch: true,
+      },
     },
   });
 

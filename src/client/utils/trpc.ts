@@ -1,4 +1,4 @@
-import { getFetch, httpBatchLink } from "@trpc/client";
+import { getFetch, httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import superjson from "superjson";
 import { AppRouter } from "~/server/routers/app.routes";
@@ -27,6 +27,12 @@ export const trpc = createTRPCNext<AppRouter>({
         return {};
       },
       links: [
+        loggerLink({
+          enabled: (opts) =>
+            (process.env.NODE_ENV === "development" &&
+              typeof window !== "undefined") ||
+            (opts.direction === "down" && opts.result instanceof Error),
+        }),
         httpBatchLink({
           url,
           fetch: async (input, init?) => {

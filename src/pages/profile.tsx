@@ -4,9 +4,7 @@ import { IUser } from "../client/lib/types";
 import useStore from "../client/store";
 import { trpc } from "../client/utils/trpc";
 
-type ProfileProps = {};
-
-const ProfilePage: NextPage<ProfileProps> = ({}) => {
+const ProfilePage: NextPage = () => {
   const store = useStore();
 
   const user = store.authUser;

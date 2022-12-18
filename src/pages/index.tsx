@@ -12,8 +12,7 @@ export const getServerSideProps = async () => {
 };
 
 const HomePage: NextPage = () => {
-  const { data, isLoading, isFetching, error, isError } =
-    trpc.getHello.useQuery();
+  const { data } = trpc.getHello.useQuery();
 
   return (
     <>

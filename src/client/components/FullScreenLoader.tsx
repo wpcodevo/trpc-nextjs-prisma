@@ -1,10 +1,15 @@
-import Spinner from './Spinner';
+import Spinner from "./Spinner";
 
 const FullScreenLoader = () => {
   return (
-    <div className='w-screen h-screen fixed'>
-      <div className='absolute top-64 left-1/2 -translate-x-1/2'>
-        <Spinner width={8} height={8} />
+    <div className="w-screen h-screen fixed">
+      <div className="absolute top-64 left-1/2 -translate-x-1/2">
+        <Spinner
+          width={8}
+          height={8}
+          color="text-ct-blue-600"
+          bgColor="text-ct-blue-600"
+        />
       </div>
     </div>
   );

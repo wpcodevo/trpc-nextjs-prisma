@@ -11,8 +11,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <CookiesProvider>
       <AuthMiddleware
-        requireAuth={pageProps.requireAuth}
-        enableAuth={pageProps.enableAuth}
+        requireAuth={pageProps.requireAuth || false}
+        enableAuth={pageProps.enableAuth || false}
       >
         <ToastContainer />
         <Component {...pageProps} />
