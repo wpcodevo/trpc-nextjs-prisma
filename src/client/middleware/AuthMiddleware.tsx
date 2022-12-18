@@ -15,7 +15,6 @@ const AuthMiddleware: React.FC<AuthMiddlewareProps> = ({
   requireAuth,
   enableAuth,
 }) => {
-  console.log("I was called from AuthMiddleware");
   const store = useStore();
   const queryClient = useQueryClient();
   const query = trpc.refreshAccessToken.useQuery(undefined, {
