@@ -37,7 +37,6 @@ const RegisterPage: NextPage = () => {
         type: "success",
         position: "top-right",
       });
-      console.log(data.data.user);
       router.push("/login");
     },
     onError(error) {
