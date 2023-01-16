@@ -7,18 +7,18 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:migrate": "npx prisma migrate dev --name user-entity --create-only && yarn prisma generate",
+    "db:migrate": "npx prisma migrate dev --name post-entity --create-only && npx prisma generate",
     "db:push": "npx prisma db push"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",
-    "@prisma/client": "^4.7.1",
-    "@tanstack/react-query": "^4.13.4",
-    "@tanstack/react-query-devtools": "^4.13.4",
-    "@trpc/client": "^10.0.0-proxy-beta.26",
-    "@trpc/next": "^10.0.0-proxy-beta.26",
-    "@trpc/react-query": "^10.0.0-proxy-beta.26",
-    "@trpc/server": "^10.0.0-proxy-beta.26",
+    "@prisma/client": "^4.8.1",
+    "@tanstack/react-query": "^4.22.0",
+    "@tanstack/react-query-devtools": "^4.22.0",
+    "@trpc/client": "^10.9.0",
+    "@trpc/next": "^10.9.0",
+    "@trpc/react-query": "^10.9.0",
+    "@trpc/server": "^10.9.0",
     "bcryptjs": "^2.4.3",
     "cookies-next": "^2.1.1",
     "dotenv-safe": "^8.2.0",
@@ -31,7 +31,7 @@
     "redis": "^4.3.1",
     "superjson": "^1.11.0",
     "tailwind-merge": "^1.7.0",
-    "zod": "^3.19.1",
+    "zod": "^3.20.2",
     "zustand": "^4.1.3"
   },
   "devDependencies": {
@@ -45,7 +45,7 @@
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.0",
     "postcss": "^8.4.18",
-    "prisma": "^4.7.1",
+    "prisma": "^4.8.1",
     "tailwindcss": "^3.2.1",
     "typescript": "4.8.4"
   }
