@@ -79,7 +79,7 @@ export const loginHandler = async ({
 }) => {
   try {
     // Get the user from the collection
-    const user = await findUser({ email: input.email });
+    const user = await findUniqueUser({ email: input.email });
 
     // Check if user exist and password is correct
     if (!user || !(await bcrypt.compare(input.password, user.password))) {
